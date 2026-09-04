@@ -72,6 +72,12 @@ The star button limits the current view to games stored in `favorites.json`.
 
 ![RSAM game library showing favorite games only](docs/images/game-library-favorites.png)
 
+### Achievement management
+
+Select a game to view, search, lock, unlock, invert, and save its achievements. The status bar shows the number of loaded achievements and statistics.
+
+![RSAM achievement management view](docs/images/achievement-management.png)
+
 ### Settings
 
 Settings are applied immediately and restored from the local JSON settings file at the next start.
