@@ -133,7 +133,7 @@ internal sealed class NativeSteamCatalogService : IDisposable
 
     private static GameInfo CreateGame(Client client, uint id, string type)
     {
-        var name = client.SteamApps001.GetAppData(id, "name");
+        var name = client.SteamApps001?.GetAppData(id, "name");
         if (string.IsNullOrWhiteSpace(name)) name = $"App {id}";
         return new GameInfo(id, type, name)
         {
@@ -146,18 +146,18 @@ internal sealed class NativeSteamCatalogService : IDisposable
         var language = client.SteamApps008.GetCurrentGameLanguage();
         if (string.IsNullOrWhiteSpace(language)) language = "english";
 
-        var candidate = client.SteamApps001.GetAppData(id, $"small_capsule/{language}");
+        var candidate = client.SteamApps001?.GetAppData(id, $"small_capsule/{language}");
         if (!string.IsNullOrWhiteSpace(candidate))
             return $"https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/{id}/{candidate}";
 
         if (!language.Equals("english", StringComparison.OrdinalIgnoreCase))
         {
-            candidate = client.SteamApps001.GetAppData(id, "small_capsule/english");
+            candidate = client.SteamApps001?.GetAppData(id, "small_capsule/english");
             if (!string.IsNullOrWhiteSpace(candidate))
                 return $"https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/{id}/{candidate}";
         }
 
-        candidate = client.SteamApps001.GetAppData(id, "logo");
+        candidate = client.SteamApps001?.GetAppData(id, "logo");
         return string.IsNullOrWhiteSpace(candidate)
             ? $"https://cdn.cloudflare.steamstatic.com/steam/apps/{id}/capsule_184x69.jpg"
             : $"https://cdn.steamstatic.com/steamcommunity/public/images/apps/{id}/{candidate}.jpg";

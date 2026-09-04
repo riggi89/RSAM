@@ -124,8 +124,20 @@ namespace RSAM.API
 
                     this.SteamUser = this.SteamClient.GetSteamUser012(this._User, this._Pipe);
                     this.SteamUserStats = this.SteamClient.GetSteamUserStats013(this._User, this._Pipe);
-                    this.SteamApps001 = this.SteamClient.GetSteamApps001(this._User, this._Pipe);
                     this.SteamApps008 = this.SteamClient.GetSteamApps008(this._User, this._Pipe);
+
+                    // SteamApps001 is a legacy metadata interface. Keep catalog
+                    // ownership available through SteamApps008 if a future Steam
+                    // client no longer exposes the older interface.
+                    try
+                    {
+                        this.SteamApps001 = this.SteamClient.GetSteamApps001(this._User, this._Pipe);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        this.SteamApps001 = null;
+                    }
+
                     this._IsInitialized = true;
                 }
             }

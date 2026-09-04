@@ -49,7 +49,7 @@ See `LICENSE.md` and `NOTICE.md` in the repository root for attribution and lice
 
 `RSAM.App/Presentation/Views` contains the central `ShellPage` and cached content pages. `RSAM.App/Presentation/Shell` contains the contracts/models used by pages to contribute toolbar actions, search context, back navigation and status text. `RSAM.App/Presentation/ViewModels` remains reserved for future WinUI-specific view models; domain models stay in `RSAM.Core/Models`.
 
-## RSAM 1.0.24 state/localization notes
+## RSAM 1.0.25 state/localization notes
 
 - `RSAM.Core` owns the full `AppSettings` schema and German/English localization dictionaries.
 - `RSAM.App` restores and persists window placement, shell state and global-search context state. Page and selected-game detail state are not restored.
@@ -72,3 +72,4 @@ See `LICENSE.md` and `NOTICE.md` in the repository root for attribution and lice
 - README screenshots are stored under `docs/images` and cover the Tile, List, TableView, favorites-only and Settings layouts.
 - The application project generates `resources.pri` explicitly and copies it to unpackaged publish output; the publish script also recovers `RSAM.pri` from architecture-specific intermediate output when required.
 - Original RSAM icon assets are stored in `RSAM.App/Assets`; the multi-resolution ICO is embedded in the executable and installer, while the 24-pixel PNG is deployed for the custom TitleBar.
+- The SAM-derived `ISteamClient018.GetISteamApps` wrapper passes the native client object pointer explicitly and uses `ThisCall` consistently on both supported architectures.

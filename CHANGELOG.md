@@ -1,5 +1,16 @@
 # RSAM Changelog
 
+## 1.0.25 - 2026-09-04
+
+- Fixed `ISteamClient018.GetISteamApps` native interop passing an invalid argument list on x86 and x64.
+- Added the missing native object pointer to the `GetISteamApps` delegate and invocation.
+- Applied the correct `ThisCall` declaration consistently with the other `ISteamClient018` methods.
+- Fixed Steam returning a null `ISteamApps001` object while loading the owned-games catalog.
+- Restored initialization of both `ISteamApps001` metadata access and `ISteamApps008` ownership checks.
+- Made legacy `ISteamApps001` metadata optional so the catalog can still load with App-ID names and standard capsule URLs if Steam removes that interface in the future.
+- Kept this Changelog English-only and outside all localization resource files.
+- Increased the RSAM build version to **1.0.25**.
+
 ## 1.0.24 - 2026-09-04
 
 - Added a dedicated RSAM application icon combining a game controller with an achievement medal.

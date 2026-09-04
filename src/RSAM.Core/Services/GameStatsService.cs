@@ -57,7 +57,7 @@ internal sealed class NativeGameStatsService : IDisposable
             ThrowIfDisposed();
             lock (_nativeSync)
             {
-                return _client.SteamApps001.GetAppData((uint)_appId, "name") ?? $"App {_appId}";
+                return _client.SteamApps001?.GetAppData((uint)_appId, "name") ?? $"App {_appId}";
             }
         }
     }

@@ -25,6 +25,7 @@ RSAM-specific UI, integration and modernization changes:
 - RSAM 1.0.22 consolidates the complete user/build/release documentation and application screenshots in the README, and synchronizes all compiled version locations through the version script.
 - RSAM 1.0.23 makes unpackaged publishing explicitly generate and deploy the WinUI resource index required at startup, while removing remaining nullable and unused-event compiler warnings.
 - RSAM 1.0.24 adds original RSAM icon artwork for the executable, installer, Windows shortcuts, installed-app entry, TitleBar and project documentation.
+- RSAM 1.0.25 corrects the native `ISteamClient018.GetISteamApps` calling convention and object pointer so Steam game metadata and ownership interfaces initialize correctly on x86 and x64.
 
 ## Third-party UI dependency
 

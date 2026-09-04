@@ -6,7 +6,7 @@
 
 RSAM (Riggi's Steam Achievement Manager) is an unpackaged WinUI 3 desktop application for viewing and managing Steam achievements and statistics on Windows.
 
-Current version: **1.0.24**  
+Current version: **1.0.25**  
 Supported architectures: **x86 and x64**
 
 > [!CAUTION]
@@ -46,7 +46,7 @@ Supported architectures: **x86 and x64**
 
 ## Screenshots
 
-The screenshots below show the application layouts included in version 1.0.24. The footer visible in these images was captured from the preceding 1.0.21 build; later versions retain the same main interface while improving documentation, publishing reliability and application branding.
+The screenshots below show the application layouts included in version 1.0.25. The footer visible in these images was captured from the preceding 1.0.21 build; later versions retain the same main interface while improving documentation, publishing reliability, branding and Steam interoperability.
 
 ### Tile view
 
@@ -91,7 +91,7 @@ The installer selects the matching x86 or x64 application payload automatically.
 
 ## Installation
 
-1. Download `RSAM_1.0.24-Setup.exe` from the GitHub release.
+1. Download `RSAM_1.0.25-Setup.exe` from the GitHub release.
 2. Run the installer and review the license page.
 3. Optionally enable the desktop shortcut.
 4. Start Steam and sign in.
@@ -276,7 +276,7 @@ Or use the repository wrapper:
 ### `set-version.ps1`
 
 ```powershell
-.\scripts\set-version.ps1 -Version 1.0.24
+.\scripts\set-version.ps1 -Version 1.0.25
 ```
 
 The version must contain exactly three numeric components. The script validates every expected location before it writes anything, then updates:
@@ -342,7 +342,7 @@ For the standard per-user installation requested for this project, pass the path
   -InnoCompiler "${env:LOCALAPPDATA}\Programs\Inno Setup 6\ISCC.exe"
 ```
 
-The result is `artifacts\installer\RSAM_1.0.24-Setup.exe`. It is intentionally unsigned. The installer uses the same multi-resolution icon embedded in `RSAM.exe`. During the build, `LICENSE.md` is copied to the ignored temporary file `artifacts\installer\LICENSE.txt` because Inno Setup's license page accepts TXT/RTF. The root `LICENSE.md` remains the sole source license file.
+The result is `artifacts\installer\RSAM_1.0.25-Setup.exe`. It is intentionally unsigned. The installer uses the same multi-resolution icon embedded in `RSAM.exe`. During the build, `LICENSE.md` is copied to the ignored temporary file `artifacts\installer\LICENSE.txt` because Inno Setup's license page accepts TXT/RTF. The root `LICENSE.md` remains the sole source license file.
 
 ### `build-source-zip.ps1`
 
@@ -351,12 +351,12 @@ The result is `artifacts\installer\RSAM_1.0.24-Setup.exe`. It is intentionally u
 .\scripts\build-source-zip.ps1 -OutputDirectory C:\Release\RSAM
 ```
 
-The default result is `artifacts\source\RSAM_1.0.24-Source.zip`. The archive recursively excludes `.git`, `.vs`, `bin`, `obj`, and `artifacts` directories at every depth.
+The default result is `artifacts\source\RSAM_1.0.25-Source.zip`. The archive recursively excludes `.git`, `.vs`, `bin`, `obj`, and `artifacts` directories at every depth.
 
 ### Recommended release sequence
 
 ```powershell
-.\scripts\set-version.ps1 -Version 1.0.24
+.\scripts\set-version.ps1 -Version 1.0.25
 .\scripts\build.ps1 -Configuration Release -Architecture All
 .\scripts\build-installer.ps1 -Configuration Release
 .\scripts\build-source-zip.ps1
@@ -377,14 +377,14 @@ Between versioning and building, update the English `CHANGELOG.md` entry and thi
 `workflow_dispatch` performs the build and artifact upload without creating a tagged release. A release tag for this version can be created with:
 
 ```powershell
-git tag v1.0.24
-git push origin v1.0.24
+git tag v1.0.25
+git push origin v1.0.25
 ```
 
 ## Versioning
 
 - Source, displayed, setup, and release versions use `1.x.x`.
-- The Windows application manifest requires four components, so `1.0.24` is stored there as `1.0.24.0`.
+- The Windows application manifest requires four components, so `1.0.25` is stored there as `1.0.25.0`.
 - Release notes belong only in the English [CHANGELOG.md](CHANGELOG.md).
 - Localization files contain interface strings only and must never contain changelog entries.
 
