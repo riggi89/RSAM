@@ -5,7 +5,6 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/riggi89/RSAM/actions/workflows/release.yml"><img alt="Build and unit tests" src="https://github.com/riggi89/RSAM/actions/workflows/release.yml/badge.svg"></a>
   <img alt="Unit tests: 21 passed" src="https://img.shields.io/badge/unit_tests-21_passed-brightgreen">
   <img alt="Windows x86 supported" src="https://img.shields.io/badge/Windows-x86-0078D4?logo=windows11&amp;logoColor=white">
   <img alt="Windows x64 supported" src="https://img.shields.io/badge/Windows-x64-0078D4?logo=windows11&amp;logoColor=white">
