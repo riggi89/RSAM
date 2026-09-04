@@ -12,7 +12,6 @@
   <img alt=".NET 10" src="https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet&amp;logoColor=white">
   <img alt="WinUI 3" src="https://img.shields.io/badge/UI-WinUI_3-0078D4">
   <img alt="Version 1.0.30" src="https://img.shields.io/badge/version-1.0.30-blue">
-  <a href="LICENSE.md"><img alt="License: zlib" src="https://img.shields.io/badge/license-zlib-green"></a>
 </p>
 
 RSAM (Riggi's Steam Achievement Manager) is an unpackaged WinUI 3 desktop application for viewing and managing Steam achievements and statistics on Windows.
