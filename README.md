@@ -42,7 +42,7 @@ Supported architectures: **x86 and x64**
 - Shows Steam process state, progress, completion messages, and the application version in the status bar.
 - Shows progress InfoBars only for explicit reload operations; ordinary page navigation does not create reload notifications.
 - Persists settings and favorites as human-readable JSON under `%LOCALAPPDATA%\RSAM`.
-- Produces self-contained x86 and x64 releases and an unsigned per-user Windows installer.
+- Produces self-contained x86 and x64 releases and separate unsigned per-user installers for both architectures.
 
 ## Screenshots
 
@@ -72,18 +72,6 @@ The star button limits the current view to games stored in `favorites.json`.
 
 ![RSAM game library showing favorite games only](docs/images/game-library-favorites.png)
 
-### Favorites filter
-
-The star button limits the current view to games stored in `favorites.json`.
-
-![RSAM game library showing favorite games only](docs/images/game-library-favorites.png)
-
-### Achievement management
-
-Select a game to view, search, lock, unlock, invert, and save its achievements. The status bar shows the number of loaded achievements and statistics.
-
-![RSAM achievement management view](docs/images/achievement-management.png)
-
 ### Settings
 
 Settings are applied immediately and restored from the local JSON settings file at the next start.
@@ -99,25 +87,31 @@ Settings are applied immediately and restored from the local JSON settings file 
 - Steam installed, running, and signed in to the intended account.
 - Internet access for Steam catalog metadata and header images.
 
-The installer selects the matching x86 or x64 application payload automatically. The published application is self-contained, so users do not need to install the .NET runtime or Windows App SDK runtime separately.
+Download the installer that matches the Windows architecture. The published application is self-contained, so users do not need to install the .NET runtime or Windows App SDK runtime separately.
 
 ## Installation
 
-1. Download `RSAM_1.0.25-Setup.exe` from the GitHub release.
+1. Download the installer that matches the Windows architecture:
+   - `RSAM_1.0.25-win-x64-Setup.exe` for 64-bit Windows;
+   - `RSAM_1.0.25-win-x86-Setup.exe` for 32-bit Windows.
 2. Run the installer and review the license page.
 3. Optionally enable the desktop shortcut.
 4. Start Steam and sign in.
 5. Start RSAM from the Start menu or desktop shortcut.
 
-RSAM uses an unsigned Inno Setup installer. Windows SmartScreen may therefore show **Unknown publisher**. Verify that the installer came from the expected GitHub release before choosing **More info** and **Run anyway**.
+Most users should download the x64 installer. Use the x86 installer only on a 32-bit Windows installation.
 
-The installer:
+RSAM uses unsigned Inno Setup installers. Windows SmartScreen may therefore show **Unknown publisher**. Verify that the installer came from the expected GitHub release before choosing **More info** and **Run anyway**.
+
+The installers:
 
 - installs per user to `%LOCALAPPDATA%\Programs\RSAM`;
 - does not require administrator rights;
-- installs the x64 payload on 64-bit Windows and the x86 payload otherwise;
+- installs only the application architecture named in the setup filename;
 - uses a stable application ID so a newer setup upgrades the existing installation;
 - registers RSAM in Windows **Installed apps** for normal uninstallation.
+
+When upgrading, use the same architecture as the existing installation. To switch between x86 and x64, uninstall the existing version first and then install the required architecture. Settings, favorites, and logs under `%LOCALAPPDATA%\RSAM` are preserved.
 
 Uninstalling the application removes program files but intentionally leaves user-created settings, favorites, and logs under `%LOCALAPPDATA%\RSAM`. Remove that directory manually only if the data is no longer needed.
 
@@ -188,7 +182,7 @@ Do not copy only `RSAM.exe` from a published folder. WinUI, Windows App SDK, .NE
 - Close any already-running RSAM process and restart Steam before trying again.
 - If Steam reports that the selected game has registered a different App ID, close the running game and reload the selected game in RSAM.
 - Use **Reload games** after Steam becomes ready.
-- Install the normal setup so Windows automatically selects the matching application architecture.
+- Install the setup that matches the Windows architecture.
 
 ### Game images are missing
 
@@ -282,7 +276,7 @@ Or use the repository wrapper:
 | `set-version.ps1` | `-Version <x.y.z>` (required) | Synchronizes source, assembly, file, displayed fallback, and Windows manifest versions. |
 | `build.ps1` | `-Configuration Debug\|Release`; `-Architecture x86\|x64\|All` | Restores and builds the selected architecture; defaults to Release and both architectures. |
 | `publish.ps1` | `-Configuration Debug\|Release`; `-Architecture x86\|x64\|All` | Creates and validates self-contained folders under `artifacts\publish`. |
-| `build-installer.ps1` | `-Configuration`; `-SkipPublish`; `-InnoCompiler` | Builds `artifacts\installer\RSAM_<version>-Setup.exe`. |
+| `build-installer.ps1` | `-Configuration`; `-Architecture x86\|x64\|All`; `-SkipPublish`; `-InnoCompiler` | Builds separate `win-x86` and/or `win-x64` setup files under `artifacts\installer`. |
 | `build-source-zip.ps1` | `-OutputDirectory` | Builds `artifacts\source\RSAM_<version>-Source.zip`. |
 
 ### `set-version.ps1`
@@ -333,7 +327,14 @@ Normal release build:
 .\scripts\build-installer.ps1 -Configuration Release
 ```
 
-The script publishes and validates both architectures before calling Inno Setup. Use `-SkipPublish` only when valid `win-x86` and `win-x64` outputs already exist:
+The default architecture is `All`. The script publishes, validates, and packages x86 and x64 separately. To build only one installer, pass the required architecture:
+
+```powershell
+.\scripts\build-installer.ps1 -Configuration Release -Architecture x64
+.\scripts\build-installer.ps1 -Configuration Release -Architecture x86
+```
+
+Use `-SkipPublish` only when valid publish output for every selected architecture already exists:
 
 ```powershell
 .\scripts\build-installer.ps1 -Configuration Release -SkipPublish
@@ -354,7 +355,14 @@ For the standard per-user installation requested for this project, pass the path
   -InnoCompiler "${env:LOCALAPPDATA}\Programs\Inno Setup 6\ISCC.exe"
 ```
 
-The result is `artifacts\installer\RSAM_1.0.25-Setup.exe`. It is intentionally unsigned. The installer uses the same multi-resolution icon embedded in `RSAM.exe`. During the build, `LICENSE.md` is copied to the ignored temporary file `artifacts\installer\LICENSE.txt` because Inno Setup's license page accepts TXT/RTF. The root `LICENSE.md` remains the sole source license file.
+The default build creates two intentionally unsigned installers:
+
+```text
+artifacts\installer\RSAM_1.0.25-win-x86-Setup.exe
+artifacts\installer\RSAM_1.0.25-win-x64-Setup.exe
+```
+
+Each installer contains only its matching self-contained publish output. Both installers use the same multi-resolution icon embedded in `RSAM.exe`. During the build, `LICENSE.md` is copied to the ignored temporary file `artifacts\installer\LICENSE.txt` because Inno Setup's license page accepts TXT/RTF. The root `LICENSE.md` remains the sole source license file.
 
 ### `build-source-zip.ps1`
 
@@ -382,8 +390,8 @@ Between versioning and building, update the English `CHANGELOG.md` entry and thi
 
 1. installs the .NET 10 SDK and Inno Setup 6;
 2. publishes x86 and x64 payloads;
-3. builds the unsigned installer and source ZIP;
-4. uploads both as workflow artifacts;
+3. builds the separate unsigned x86 and x64 installers and the source ZIP;
+4. uploads all three files as workflow artifacts;
 5. creates or updates a GitHub release when the workflow was triggered by a `v*` tag.
 
 `workflow_dispatch` performs the build and artifact upload without creating a tagged release. A release tag for this version can be created with:
