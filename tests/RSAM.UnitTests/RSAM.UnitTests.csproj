@@ -14,6 +14,7 @@
     <Platforms>x64</Platforms>
     <PlatformTarget>x64</PlatformTarget>
     <RSAMArchitecture>x64</RSAMArchitecture>
+    <BuildingForUnitTests>true</BuildingForUnitTests>
     <RuntimeIdentifier></RuntimeIdentifier>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <SelfContained>false</SelfContained>
@@ -38,7 +39,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\RSAM.Core\RSAM.Core.csproj"
+                      AdditionalProperties="BuildingForUnitTests=true;Platform=x64"
+                      ReferenceOutputAssembly="true"
+                      Private="true" />
+    <ProjectReference Include="..\..\src\RSAM.API\RSAM.API.csproj"
+                      AdditionalProperties="BuildingForUnitTests=true;Platform=x64"
                       ReferenceOutputAssembly="true"
                       Private="true" />
   </ItemGroup>
+
+  <Target Name="ValidateUnitTestDependencies" AfterTargets="Build">
+    <Error Condition="!Exists('$(TargetDir)RSAM.Core.dll')"
+           Text="RSAM.Core.dll was not copied to the UnitTests output directory: $(TargetDir)" />
+    <Error Condition="!Exists('$(TargetDir)RSAM.API.dll')"
+           Text="RSAM.API.dll was not copied to the UnitTests output directory: $(TargetDir)" />
+  </Target>
 </Project>

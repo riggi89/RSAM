@@ -1,5 +1,20 @@
 # RSAM Changelog
 
+## 1.0.30 - 2026-09-04
+
+- Added README badges for the GitHub Actions build/test status, the verified 21-test suite, Windows x86/x64 support, .NET 10, WinUI 3, the current release version and the zlib license.
+- Linked the live build badge directly to the RSAM GitHub Actions release workflow.
+- Increased the RSAM build version to **1.0.30**.
+
+## 1.0.29 - 2026-09-04
+
+- Fixed `RSAM.Core.dll` and `RSAM.API.dll` still being omitted from the Visual Studio UnitTests output directory.
+- Added a dedicated `BuildingForUnitTests` MSBuild path that prevents runtime identifiers from being applied to Core/API project-reference builds used by the tests.
+- Added an explicit direct `RSAM.API` reference to `RSAM.UnitTests` so both required RSAM assemblies participate in copy-local resolution.
+- Added post-build validation that stops immediately with a clear build error if either required assembly is missing from the UnitTests output.
+- Kept runtime identifiers unchanged for the production x86/x64 application, publish and installer builds.
+- Increased the RSAM build version to **1.0.29**.
+
 ## 1.0.28 - 2026-09-04
 
 - Fixed every unit test failing with `FileNotFoundException` because `RSAM.Core.dll` was not available to the Visual Studio test host.

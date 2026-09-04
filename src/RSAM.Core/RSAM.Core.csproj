@@ -19,7 +19,8 @@
     <Copyright>RSAM modifications Copyright © 2026 Daniel Riggi (riggi89). Original Steam Achievement Manager Copyright © 2024 Rick (Gibbed).</Copyright>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RSAM.API\RSAM.API.csproj" />
+    <ProjectReference Include="..\RSAM.API\RSAM.API.csproj"
+                      AdditionalProperties="BuildingForUnitTests=$(BuildingForUnitTests)" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization\Resources\*.json">

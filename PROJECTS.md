@@ -49,7 +49,7 @@ See `LICENSE.md` and `NOTICE.md` in the repository root for attribution and lice
 
 `RSAM.App/Presentation/Views` contains the central `ShellPage` and cached content pages. `RSAM.App/Presentation/Shell` contains the contracts/models used by pages to contribute toolbar actions, search context, back navigation and status text. `RSAM.App/Presentation/ViewModels` remains reserved for future WinUI-specific view models; domain models stay in `RSAM.Core/Models`.
 
-## RSAM 1.0.28 state/localization and test notes
+## RSAM 1.0.30 state/localization and test notes
 
 - `RSAM.Core` owns the full `AppSettings` schema and German/English localization dictionaries.
 - `RSAM.App` restores and persists window placement, shell state and global-search context state. Page and selected-game detail state are not restored.
@@ -76,4 +76,5 @@ See `LICENSE.md` and `NOTICE.md` in the repository root for attribution and lice
 - `RSAM.UnitTests` validates storage, normalization, domain models, localization, search, native-wrapper guards and Steam KeyValue parsing without starting WinUI or Steam.
 - `RSAM.UnitTests` always targets x64 and supplies an x64 runsettings file so Visual Studio never attempts to load an x86 test assembly into its default x64 test host.
 - The UnitTests output is framework-dependent and copies `RSAM.Core`, `RSAM.API` and package dependencies locally so Visual Studio can resolve every assembly during execution.
+- Core/API references use the `BuildingForUnitTests` MSBuild path to avoid production runtime-specific output during tests; the test build fails immediately if either RSAM dependency is absent.
 - Settings and favorites services accept isolated data directories for tests, and their atomic saves use unique temporary names to prevent same-process collisions.

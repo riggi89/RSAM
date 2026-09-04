@@ -23,7 +23,7 @@ Native x86/x64 Steam client interoperability derived from Steam Achievement Mana
 
 ### RSAM.UnitTests
 
-Independent, framework-dependent x64 xUnit test project for Core and API behavior. It exercises isolated storage directories, settings normalization, favorites, models, localization, search, native-wrapper guards and Steam KeyValue parsing without starting WinUI or opening a Steam session. The production projects retain native x86 and x64 configurations; only the managed test host is fixed to x64 for reliable Visual Studio discovery and execution. Test dependencies are copied locally beside the test assembly instead of using a runtime-specific UnitTests output directory.
+Independent, framework-dependent x64 xUnit test project for Core and API behavior. It exercises isolated storage directories, settings normalization, favorites, models, localization, search, native-wrapper guards and Steam KeyValue parsing without starting WinUI or opening a Steam session. The production projects retain native x86 and x64 configurations; only the managed test host is fixed to x64 for reliable Visual Studio discovery and execution. The `BuildingForUnitTests` MSBuild property removes production runtime identifiers from referenced Core/API builds, allowing their assemblies to be copied locally beside the test assembly. A post-build check prevents tests from starting with an incomplete output directory.
 
 The current worker architecture loads `steamclient.dll` for x86 or `steamclient64.dll` for x64 and retains the selected module until process exit. Native client sessions are serialized because the low-level Steam pipe and user lifecycle operations are not thread-safe, and because RSAM hosts the former picker/game workflows inside one process.
 

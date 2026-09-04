@@ -4,9 +4,20 @@
   <img src="src/RSAM.App/Assets/RSAM-AppIcon-256.png" width="128" height="128" alt="RSAM application icon">
 </p>
 
+<p align="center">
+  <a href="https://github.com/riggi89/RSAM/actions/workflows/release.yml"><img alt="Build and unit tests" src="https://github.com/riggi89/RSAM/actions/workflows/release.yml/badge.svg"></a>
+  <img alt="Unit tests: 21 passed" src="https://img.shields.io/badge/unit_tests-21_passed-brightgreen">
+  <img alt="Windows x86 supported" src="https://img.shields.io/badge/Windows-x86-0078D4?logo=windows11&amp;logoColor=white">
+  <img alt="Windows x64 supported" src="https://img.shields.io/badge/Windows-x64-0078D4?logo=windows11&amp;logoColor=white">
+  <img alt=".NET 10" src="https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet&amp;logoColor=white">
+  <img alt="WinUI 3" src="https://img.shields.io/badge/UI-WinUI_3-0078D4">
+  <img alt="Version 1.0.30" src="https://img.shields.io/badge/version-1.0.30-blue">
+  <a href="LICENSE.md"><img alt="License: zlib" src="https://img.shields.io/badge/license-zlib-green"></a>
+</p>
+
 RSAM (Riggi's Steam Achievement Manager) is an unpackaged WinUI 3 desktop application for viewing and managing Steam achievements and statistics on Windows.
 
-Current version: **1.0.28**  
+Current version: **1.0.30**  
 Supported architectures: **x86 and x64**
 
 > [!CAUTION]
@@ -46,7 +57,7 @@ Supported architectures: **x86 and x64**
 
 ## Screenshots
 
-The screenshots below show the application layouts included in version 1.0.28. The footer visible in these images was captured from the preceding 1.0.21 build; later versions retain the same main interface while improving documentation, publishing reliability, branding and Steam interoperability.
+The screenshots below show the application layouts included in version 1.0.30. The footer visible in these images was captured from the preceding 1.0.21 build; later versions retain the same main interface while improving documentation, publishing reliability, branding and Steam interoperability.
 
 ### Tile view
 
@@ -98,8 +109,8 @@ Download the installer that matches the Windows architecture. The published appl
 ## Installation
 
 1. Download the installer that matches the Windows architecture:
-   - `RSAM_1.0.28-win-x64-Setup.exe` for 64-bit Windows;
-   - `RSAM_1.0.28-win-x86-Setup.exe` for 32-bit Windows.
+   - `RSAM_1.0.30-win-x64-Setup.exe` for 64-bit Windows;
+   - `RSAM_1.0.30-win-x86-Setup.exe` for 32-bit Windows.
 2. Run the installer and review the license page.
 3. Optionally enable the desktop shortcut.
 4. Start Steam and sign in.
@@ -293,7 +304,7 @@ Or use the repository wrapper:
 ### `set-version.ps1`
 
 ```powershell
-.\scripts\set-version.ps1 -Version 1.0.28
+.\scripts\set-version.ps1 -Version 1.0.30
 ```
 
 The version must contain exactly three numeric components. The script validates every expected location before it writes anything, then updates:
@@ -321,7 +332,7 @@ Defaults are `Release` and `All`. For each selected architecture, the script run
 .\scripts\test.ps1 -Configuration Release -CollectCoverage
 ```
 
-The test script executes the separate framework-dependent `RSAM.UnitTests` project in the x64 test host without starting WinUI or connecting to Steam. Tests use isolated temporary data directories and never modify `%LOCALAPPDATA%\RSAM`. The test project remains x64 even when the solution's production configuration is x86, preventing Visual Studio from loading an x86 test assembly into its x64 test host. Its output is not runtime-specific, and all project dependencies are copied beside `RSAM.UnitTests.dll`. Coverage results are written below `artifacts\test-results` when `-CollectCoverage` is specified.
+The test script executes the separate framework-dependent `RSAM.UnitTests` project in the x64 test host without starting WinUI or connecting to Steam. Tests use isolated temporary data directories and never modify `%LOCALAPPDATA%\RSAM`. The test project remains x64 even when the solution's production configuration is x86, preventing Visual Studio from loading an x86 test assembly into its x64 test host. Its output is not runtime-specific, and dedicated test-build properties copy `RSAM.Core.dll`, `RSAM.API.dll` and all package dependencies beside `RSAM.UnitTests.dll`. A post-build validation fails immediately if either RSAM dependency is missing. Coverage results are written below `artifacts\test-results` when `-CollectCoverage` is specified.
 
 ### `publish.ps1`
 
@@ -378,8 +389,8 @@ For the standard per-user installation requested for this project, pass the path
 The default build creates two intentionally unsigned installers:
 
 ```text
-artifacts\installer\RSAM_1.0.28-win-x86-Setup.exe
-artifacts\installer\RSAM_1.0.28-win-x64-Setup.exe
+artifacts\installer\RSAM_1.0.30-win-x86-Setup.exe
+artifacts\installer\RSAM_1.0.30-win-x64-Setup.exe
 ```
 
 Each installer contains only its matching self-contained publish output. Both installers use the same multi-resolution icon embedded in `RSAM.exe`. During the build, `LICENSE.md` is copied to the ignored temporary file `artifacts\installer\LICENSE.txt` because Inno Setup's license page accepts TXT/RTF. The root `LICENSE.md` remains the sole source license file.
@@ -391,12 +402,12 @@ Each installer contains only its matching self-contained publish output. Both in
 .\scripts\build-source-zip.ps1 -OutputDirectory C:\Release\RSAM
 ```
 
-The default result is `artifacts\source\RSAM_1.0.28-Source.zip`. The archive recursively excludes `.git`, `.vs`, `bin`, `obj`, and `artifacts` directories at every depth.
+The default result is `artifacts\source\RSAM_1.0.30-Source.zip`. The archive recursively excludes `.git`, `.vs`, `bin`, `obj`, and `artifacts` directories at every depth.
 
 ### Recommended release sequence
 
 ```powershell
-.\scripts\set-version.ps1 -Version 1.0.28
+.\scripts\set-version.ps1 -Version 1.0.30
 .\scripts\test.ps1 -Configuration Release
 .\scripts\build.ps1 -Configuration Release -Architecture All
 .\scripts\build-installer.ps1 -Configuration Release
@@ -419,14 +430,14 @@ Between versioning and building, update the English `CHANGELOG.md` entry and thi
 `workflow_dispatch` performs the build and artifact upload without creating a tagged release. A release tag for this version can be created with:
 
 ```powershell
-git tag v1.0.28
-git push origin v1.0.28
+git tag v1.0.30
+git push origin v1.0.30
 ```
 
 ## Versioning
 
 - Source, displayed, setup, and release versions use `1.x.x`.
-- The Windows application manifest requires four components, so `1.0.28` is stored there as `1.0.28.0`.
+- The Windows application manifest requires four components, so `1.0.30` is stored there as `1.0.30.0`.
 - Release notes belong only in the English [CHANGELOG.md](CHANGELOG.md).
 - Localization files contain interface strings only and must never contain changelog entries.
 
