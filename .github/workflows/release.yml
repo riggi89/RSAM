@@ -30,6 +30,10 @@ jobs:
         shell: pwsh
         run: choco install innosetup --no-progress --yes
 
+      - name: Run unit tests
+        shell: pwsh
+        run: ./scripts/test.ps1 -Configuration Release -CollectCoverage
+
       - name: Build x86, x64 and installer
         shell: pwsh
         run: ./scripts/build-installer.ps1 -Configuration Release

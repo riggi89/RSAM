@@ -17,11 +17,22 @@ public sealed class AppSettingsService
         PropertyNameCaseInsensitive = true
     };
 
-    public string SettingsDirectory { get; } = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "RSAM");
+    public string SettingsDirectory { get; }
 
     public string SettingsPath => Path.Combine(SettingsDirectory, "settings.json");
+
+    public AppSettingsService()
+        : this(Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "RSAM"))
+    {
+    }
+
+    public AppSettingsService(string settingsDirectory)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(settingsDirectory);
+        SettingsDirectory = Path.GetFullPath(settingsDirectory);
+    }
 
     public AppSettings Load()
     {
@@ -71,7 +82,7 @@ public sealed class AppSettingsService
 
         Directory.CreateDirectory(SettingsDirectory);
         var json = JsonSerializer.Serialize(settings, JsonOptions);
-        var tempPath = $"{SettingsPath}.{Environment.ProcessId}.tmp";
+        var tempPath = $"{SettingsPath}.{Guid.NewGuid():N}.tmp";
 
         try
         {

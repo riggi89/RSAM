@@ -18,14 +18,21 @@ public sealed class GameFavoritesService
         PropertyNameCaseInsensitive = true
     };
 
-    public string FavoritesDirectory { get; } = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "RSAM");
+    public string FavoritesDirectory { get; }
 
     public string FavoritesPath => Path.Combine(FavoritesDirectory, "favorites.json");
 
     public GameFavoritesService()
+        : this(Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "RSAM"))
     {
+    }
+
+    public GameFavoritesService(string favoritesDirectory)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(favoritesDirectory);
+        FavoritesDirectory = Path.GetFullPath(favoritesDirectory);
         LoadCore();
     }
 
@@ -37,6 +44,9 @@ public sealed class GameFavoritesService
 
     public void SetFavorite(uint appId, bool isFavorite)
     {
+        if (appId == 0)
+            throw new ArgumentOutOfRangeException(nameof(appId), "Steam App IDs must be greater than zero.");
+
         lock (_sync)
         {
             var changed = isFavorite
@@ -97,7 +107,7 @@ public sealed class GameFavoritesService
             FavoriteAppIds = _favoriteAppIds.OrderBy(id => id).ToList()
         };
         var json = JsonSerializer.Serialize(document, JsonOptions);
-        var tempPath = $"{FavoritesPath}.{Environment.ProcessId}.tmp";
+        var tempPath = $"{FavoritesPath}.{Guid.NewGuid():N}.tmp";
 
         try
         {

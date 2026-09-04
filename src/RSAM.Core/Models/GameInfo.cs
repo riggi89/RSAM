@@ -15,6 +15,11 @@ public sealed class GameInfo : INotifyPropertyChanged
 
     public GameInfo(uint id, string type, string name)
     {
+        if (id == 0)
+            throw new ArgumentOutOfRangeException(nameof(id), "Steam App IDs must be greater than zero.");
+        ArgumentException.ThrowIfNullOrWhiteSpace(type);
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+
         Id = id;
         Type = type;
         _name = name;

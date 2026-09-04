@@ -26,7 +26,7 @@ Application/domain layer independent of WinUI.
 - `Search` – reusable global-search provider implementations.
 - `Services` – game catalog and Steam achievement/stat orchestration.
 - `Stats` – statistics domain definitions and editable stat model.
-- `Storage` – JSON settings persistence.
+- `Storage` – JSON settings and game-favorites persistence.
 
 `RSAM.Core` references `RSAM.API`; it does not reference WinUI.
 
@@ -49,7 +49,7 @@ See `LICENSE.md` and `NOTICE.md` in the repository root for attribution and lice
 
 `RSAM.App/Presentation/Views` contains the central `ShellPage` and cached content pages. `RSAM.App/Presentation/Shell` contains the contracts/models used by pages to contribute toolbar actions, search context, back navigation and status text. `RSAM.App/Presentation/ViewModels` remains reserved for future WinUI-specific view models; domain models stay in `RSAM.Core/Models`.
 
-## RSAM 1.0.25 state/localization notes
+## RSAM 1.0.28 state/localization and test notes
 
 - `RSAM.Core` owns the full `AppSettings` schema and German/English localization dictionaries.
 - `RSAM.App` restores and persists window placement, shell state and global-search context state. Page and selected-game detail state are not restored.
@@ -65,7 +65,7 @@ See `LICENSE.md` and `NOTICE.md` in the repository root for attribution and lice
 - Catalog and game-data loading messages always reach the status bar; the global InfoBar is used only for refreshes explicitly started with Reload buttons.
 - Build and displayed versions use the three-part `1.x.x` format.
 - `LICENSE.md` in the repository root is the single shipped project license; `RSAM.API` no longer carries a duplicate license or the unused `Pink.ico` asset.
-- The solution and PowerShell scripts build/publish x86 and x64, the Inno Setup definition combines both into one unsigned per-user installer, and the GitHub workflow publishes release assets for version tags.
+- The solution and PowerShell scripts build/publish x86 and x64, the Inno Setup definition creates a separate unsigned per-user installer for each architecture, and the GitHub workflow publishes both installers for version tags.
 - The TableView game-library mode is display-only; all column manipulation is disabled and one row click opens the selected game's Achievements tab.
 - Installer publishing validates the complete WinUI/.NET runtime payload and startup failures are recorded in `%LOCALAPPDATA%\RSAM\Logs\startup.log` before the shell is created.
 - `set-version.ps1` synchronizes the three-part source version, displayed-version fallback and the required four-part Windows manifest version; release notes remain a deliberate manual update.
@@ -73,3 +73,7 @@ See `LICENSE.md` and `NOTICE.md` in the repository root for attribution and lice
 - The application project generates `resources.pri` explicitly and copies it to unpackaged publish output; the publish script also recovers `RSAM.pri` from architecture-specific intermediate output when required.
 - Original RSAM icon assets are stored in `RSAM.App/Assets`; the multi-resolution ICO is embedded in the executable and installer, while the 24-pixel PNG is deployed for the custom TitleBar.
 - The SAM-derived `ISteamClient018.GetISteamApps` wrapper passes the native client object pointer explicitly and uses `ThisCall` consistently on both supported architectures.
+- `RSAM.UnitTests` validates storage, normalization, domain models, localization, search, native-wrapper guards and Steam KeyValue parsing without starting WinUI or Steam.
+- `RSAM.UnitTests` always targets x64 and supplies an x64 runsettings file so Visual Studio never attempts to load an x86 test assembly into its default x64 test host.
+- The UnitTests output is framework-dependent and copies `RSAM.Core`, `RSAM.API` and package dependencies locally so Visual Studio can resolve every assembly during execution.
+- Settings and favorites services accept isolated data directories for tests, and their atomic saves use unique temporary names to prevent same-process collisions.

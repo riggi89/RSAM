@@ -10,6 +10,10 @@ public sealed class DelegateSearchProvider : IGlobalSearchProvider
 
     public DelegateSearchProvider(string contextId, string placeholder, Action<string> apply)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(contextId);
+        ArgumentNullException.ThrowIfNull(placeholder);
+        ArgumentNullException.ThrowIfNull(apply);
+
         ContextId = contextId;
         Placeholder = placeholder;
         _apply = apply;

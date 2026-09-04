@@ -1,5 +1,36 @@
 # RSAM Changelog
 
+## 1.0.28 - 2026-09-04
+
+- Fixed every unit test failing with `FileNotFoundException` because `RSAM.Core.dll` was not available to the Visual Studio test host.
+- Removed the unnecessary runtime identifier from the managed UnitTests output while retaining its x64 platform target.
+- Made `RSAM.UnitTests` framework-dependent and enabled runtime/dependency file generation for standard Visual Studio test discovery.
+- Explicitly enabled copy-local behavior for NuGet and project-reference assemblies so `RSAM.Core.dll` and `RSAM.API.dll` are deployed beside the test assembly.
+- Removed the runtime-specific argument from `scripts/test.ps1` to match Visual Studio's framework-dependent test-host behavior.
+- Increased the RSAM build version to **1.0.28**.
+
+## 1.0.27 - 2026-09-04
+
+- Fixed `RSAM.UnitTests.dll` failing to load when Visual Studio used its x64 test host while the solution was configured for x86.
+- Made `RSAM.UnitTests` an explicit x64-only test project because the suite tests managed Core/API behavior and does not load the native Steam client.
+- Added `RSAM.UnitTests.runsettings` to select the x64 Visual Studio test host consistently.
+- Mapped the solution's x86 configurations to the x64 UnitTests configuration while keeping all production projects native x86.
+- Simplified `scripts/test.ps1` so it always runs the suite once with the matching x64 runtime and test host.
+- Increased the RSAM build version to **1.0.27**.
+
+## 1.0.26 - 2026-09-04
+
+- Added the dedicated `RSAM.UnitTests` xUnit project to the solution for x86 and x64 configurations.
+- Added tests for settings normalization, persistence and reset behavior.
+- Added tests for favorites persistence, damaged JSON recovery, duplicate IDs and invalid App IDs.
+- Added tests for achievement/statistic models, culture-aware numeric parsing, localization, search delegation and the binary Steam KeyValue parser.
+- Added `scripts/test.ps1` with selectable x86/x64 execution and optional XPlat code coverage collection.
+- Added the x64 unit-test suite to the GitHub release workflow before installer creation.
+- Made settings and favorites storage directories injectable so tests never access real user data.
+- Fixed possible temporary-file collisions between multiple settings or favorites service instances by using unique file names.
+- Added validation for invalid Steam App IDs and missing required game/search data.
+- Increased the RSAM build version to **1.0.26**.
+
 ## 1.0.25 - 2026-09-04
 
 - Fixed `ISteamClient018.GetISteamApps` native interop passing an invalid argument list on x86 and x64.

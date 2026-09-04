@@ -4,9 +4,9 @@
 
 <Project>
   <PropertyGroup>
-    <Version>1.0.25</Version>
-    <AssemblyVersion>1.0.25</AssemblyVersion>
-    <FileVersion>1.0.25</FileVersion>
+    <Version>1.0.28</Version>
+    <AssemblyVersion>1.0.28</AssemblyVersion>
+    <FileVersion>1.0.28</FileVersion>
     <Platforms>x86;x64</Platforms>
     <RSAMArchitecture Condition="'$(Platform)' == 'x86'">x86</RSAMArchitecture>
     <RSAMArchitecture Condition="'$(Platform)' == 'x64'">x64</RSAMArchitecture>

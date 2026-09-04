@@ -4,6 +4,9 @@
 
 ```text
 RSAM.App  ->  RSAM.Core  ->  RSAM.API
+                   ^
+                   |
+            RSAM.UnitTests
 ```
 
 ### RSAM.App
@@ -17,6 +20,10 @@ Reusable RSAM application/domain layer. It owns models, JSON settings storage, t
 ### RSAM.API
 
 Native x86/x64 Steam client interoperability derived from Steam Achievement Manager. It remains isolated so native vtable/marshalling changes do not leak into WinUI code.
+
+### RSAM.UnitTests
+
+Independent, framework-dependent x64 xUnit test project for Core and API behavior. It exercises isolated storage directories, settings normalization, favorites, models, localization, search, native-wrapper guards and Steam KeyValue parsing without starting WinUI or opening a Steam session. The production projects retain native x86 and x64 configurations; only the managed test host is fixed to x64 for reliable Visual Studio discovery and execution. Test dependencies are copied locally beside the test assembly instead of using a runtime-specific UnitTests output directory.
 
 The current worker architecture loads `steamclient.dll` for x86 or `steamclient64.dll` for x64 and retains the selected module until process exit. Native client sessions are serialized because the low-level Steam pipe and user lifecycle operations are not thread-safe, and because RSAM hosts the former picker/game workflows inside one process.
 
@@ -85,7 +92,7 @@ The selected native Steam client module and its Steam App ID context are process
 
 The solution exposes x86 and x64 configurations. Shared MSBuild properties map them to `win-x86` and `win-x64`, and the publish script keeps the self-contained outputs in separate directories. The x64 compilation symbol selects the 64-bit Steam callback packing where pointer alignment changes native field offsets.
 
-The Inno Setup definition consumes both publish directories. One unsigned per-user setup selects the x64 payload when `IsWin64` is true and otherwise installs x86; application settings and favorites remain in `%LOCALAPPDATA%\RSAM` when the program is uninstalled.
+The Inno Setup definition is compiled once per selected architecture. It creates separate unsigned `win-x86` and `win-x64` per-user installers, and each setup contains only its matching publish directory. Application settings and favorites remain in `%LOCALAPPDATA%\RSAM` when the program is uninstalled.
 
 Catalog operations run with no App ID. Game load, store and reset operations run in a fresh worker whose `SteamAppId` environment variable is set before native initialization. The main RSAM process and window remain open, and the temporary request/response directory is removed after every operation. This avoids cross-game native state reuse without a visible application restart.
 
