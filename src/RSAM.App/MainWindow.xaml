@@ -48,7 +48,10 @@
                             Spacing="8"
                             Margin="4,0,0,0"
                             VerticalAlignment="Center">
-                    <FontIcon Glyph="&#xE7FC;" FontSize="17" />
+                    <Image Width="18"
+                           Height="18"
+                           Source="ms-appx:///Assets/RSAM-AppIcon-24.png"
+                           Stretch="Uniform" />
                     <TextBlock Text="RSAM"
                                FontWeight="SemiBold"
                                FontSize="14"

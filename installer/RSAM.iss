@@ -16,6 +16,7 @@ VersionInfoVersion={#MyAppVersion}
 VersionInfoCompany=Daniel Riggi (riggi89)
 VersionInfoDescription=RSAM Installer
 VersionInfoProductName=RSAM - Riggi's Steam Achievement Manager
+SetupIconFile={#SourceRoot}\src\RSAM.App\Assets\RSAM-AppIcon.ico
 DefaultDirName={localappdata}\Programs\RSAM
 DefaultGroupName=RSAM
 DisableProgramGroupPage=yes

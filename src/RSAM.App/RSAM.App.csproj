@@ -10,6 +10,7 @@
     <RootNamespace>RSAM</RootNamespace>
     <AssemblyName>RSAM</AssemblyName>
     <AssemblyTitle>RSAM - Riggi's Steam Achievement Manager</AssemblyTitle>
+    <ApplicationIcon>Assets\RSAM-AppIcon.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <UseWinUI>true</UseWinUI>
     <WindowsPackageType>None</WindowsPackageType>
@@ -31,6 +32,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RSAM.Core\RSAM.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\RSAM-AppIcon-24.png"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\..\CHANGELOG.md" LogicalName="RSAM.CHANGELOG.md" />

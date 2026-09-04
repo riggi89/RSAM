@@ -1,5 +1,16 @@
 # RSAM Changelog
 
+## 1.0.24 - 2026-09-04
+
+- Added a dedicated RSAM application icon combining a game controller with an achievement medal.
+- Added a seven-size Windows ICO resource for sharp rendering from 16 through 256 pixels.
+- Embedded the icon in `RSAM.exe` for Windows, taskbar, shortcut and installed-app presentation.
+- Applied the same icon to the Inno Setup executable and uninstall registration.
+- Replaced the generic TitleBar glyph with the new RSAM icon.
+- Added PNG source variants and displayed the application icon in the README.
+- Kept this Changelog English-only and outside all localization resource files.
+- Increased the RSAM build version to **1.0.24**.
+
 ## 1.0.23 - 2026-09-04
 
 - Fixed installer publishing failing because the unpackaged WinUI resource index was not copied to the publish directory.
